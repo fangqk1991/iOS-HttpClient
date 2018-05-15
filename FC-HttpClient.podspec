@@ -41,6 +41,26 @@ TODO: Add long description of the pod here.
     core.public_header_files = 'FC-HttpClient/Core/*.h'
 
   end
+
+  s.subspec 'ProgressHUD' do |hud|
+
+    hud.dependency 'FC-HttpClient/Core'
+    hud.dependency 'MBProgressHUD', '~> 1.1.0'
+
+    hud.source_files = 'FC-HttpClient/ProgressHUD/*.{h,m}'
+    hud.public_header_files = 'FC-HttpClient/ProgressHUD/*.h'
+
+  end
+
+  s.subspec 'Upyun' do |upyun|
+
+    upyun.dependency 'FC-HttpClient/Core'
+
+    upyun.source_files = 'FC-HttpClient/Upyun/*.{h,m}'
+    upyun.public_header_files = 'FC-HttpClient/Upyun/*.h'
+
+  end
+  
   
   # s.resource_bundles = {
   #   'FC-HttpClient' => ['FC-HttpClient/Assets/*.png']
