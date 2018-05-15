@@ -38,7 +38,6 @@
 		6003F5A5195388D20070C39A /* FCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCViewController.h; sourceTree = "<group>"; };
 		6003F5A6195388D20070C39A /* FCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCViewController.m; sourceTree = "<group>"; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
@@ -48,7 +47,6 @@
 		B29191B0C40C51A2E3475A98 /* Pods-FC-HttpClient_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FC-HttpClient_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FC-HttpClient_Example/Pods-FC-HttpClient_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		BF1BBBE2452A2C430A3FEF9E /* FC-HttpClient.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "FC-HttpClient.podspec"; path = "../FC-HttpClient.podspec"; sourceTree = "<group>"; };
 		CEA6012E97C53607DE335DBF /* Pods-FC-HttpClient_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FC-HttpClient_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-FC-HttpClient_Example/Pods-FC-HttpClient_Example.release.xcconfig"; sourceTree = "<group>"; };
-		D64ABA49B602B2D5542E8712 /* Pods_FC_HttpClient_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FC_HttpClient_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCADD528B616000269881544 /* Pods-FC-HttpClient_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FC-HttpClient_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FC-HttpClient_Tests/Pods-FC-HttpClient_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,9 +102,7 @@
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
-				6003F5AF195388D20070C39A /* XCTest.framework */,
 				0FB131FFD556C331F609558E /* Pods_FC_HttpClient_Example.framework */,
-				D64ABA49B602B2D5542E8712 /* Pods_FC_HttpClient_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

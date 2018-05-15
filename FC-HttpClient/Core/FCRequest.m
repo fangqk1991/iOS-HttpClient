@@ -66,7 +66,7 @@
     
     for (NSString *key in [params allKeys])
     {
-        if(![params[key] isKindOfClass:[NSData class]])
+        if([params[key] isKindOfClass:[NSData class]])
         {
             dataParams[key] = params[key];
         }

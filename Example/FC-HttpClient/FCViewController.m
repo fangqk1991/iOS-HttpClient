@@ -18,19 +18,80 @@ static NSString * const kReuseCell = @"ReuseCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    __weak __typeof(self)weakSelf = self;
+    __weak typeof(self) weakSelf = self;
+
+    NSString *url = @"https://service.fangcha.me/api/test/http/test_post_json";
+    NSString *uploadURL = @"https://service.fangcha.me/api/test/http/test_post_files";
     
     self.infos = @[
                    @[
                        @{
-                           @"text": @"post json",
+                           @"text": @"application/json",
                            @"event": ^{
+                               NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss"};
                                FCRequest *request = [FCRequest request];
-                               [request post:@"https://service.fangcha.me/api/test/http/test_post_json" params:nil success:^(id obj) {
+                               request.requestType = FCRequestTypeJSON;
+                               [request post:url params:params success:^(id obj) {
                                    NSLog(@"%@", obj);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
                                }];
+                           }
+                           },
+                       @{
+                           @"text": @"application/x-www-form-urlencoded",
+                           @"event": ^{
+                               NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss"};
+                               FCRequest *request = [FCRequest request];
+                               request.requestType = FCRequestTypeForm;
+                               [request post:url params:params success:^(id obj) {
+                                   NSLog(@"%@", obj);
+                               } failure:^(NSError *error) {
+                                   NSLog(@"Error: %@", error.localizedDescription);
+                               }];
+                           }
+                           },
+                       @{
+                           @"text": @"multipart/form-data",
+                           @"event": ^{
+                               NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss", @"file_a": [@"file_a" dataUsingEncoding:NSUTF8StringEncoding], @"file_b": [@"file_b" dataUsingEncoding:NSUTF8StringEncoding]};
+                               FCRequest *request = [FCRequest request];
+                               request.requestType = FCRequestTypeFormData;
+                               [request post:uploadURL params:params success:^(id obj) {
+                                   NSLog(@"%@", obj);
+                               } failure:^(NSError *error) {
+                                   NSLog(@"Error: %@", error.localizedDescription);
+                               }];
+                           }
+                           },
+                       ],
+                   @[
+                       @{
+                           @"text": @"SyncRequest",
+                           @"event": ^{
+                               dispatch_block_t block = ^
+                               {
+                                   for(int i = 0; i < 5; ++i)
+                                   {
+                                       NSLog(@"Start SyncRequest %d", i);
+                                       NSDictionary *params = @{@"index": @(i)};
+                                       FCRequest *request = [FCRequest request];
+                                       request.requestType = FCRequestTypeJSON;
+                                       [request syncPost:url params:params];
+                                       NSLog(@"Response: %@", request.response);
+                                   }
+                                   
+                                   dispatch_block_t block = ^
+                                   {
+                                       FCAlertView *dialog = [FCAlertView dialogWithTitle:@"Please see log"];
+                                       dialog.cancelAble = NO;
+                                       [dialog showInView:weakSelf];
+                                   };
+                                   
+                                   dispatch_async(dispatch_get_main_queue(), block);
+                               };
+                               
+                               dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block);
                            }
                            },
                        ],
