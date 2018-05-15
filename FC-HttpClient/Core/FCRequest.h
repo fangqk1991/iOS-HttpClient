@@ -10,13 +10,12 @@
 typedef NS_ENUM(NSInteger, FCRequestType)
 {
     FCRequestTypeForm = 1000,
-    FCRequestTypeFormData = 1001,
     FCRequestTypeJSON = 2000,
 };
 
 typedef NS_ENUM(NSInteger, FCResponseType)
 {
-    FCResponseTypeText = 0,
+    FCResponseTypeText = 1000,
     FCResponseTypeJSON = 2000,
 };
 

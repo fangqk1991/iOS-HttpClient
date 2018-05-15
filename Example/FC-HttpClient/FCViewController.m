@@ -56,7 +56,7 @@ static NSString * const kReuseCell = @"ReuseCell";
                            @"event": ^{
                                NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss", @"file_a": [@"file_a" dataUsingEncoding:NSUTF8StringEncoding], @"file_b": [@"file_b" dataUsingEncoding:NSUTF8StringEncoding]};
                                FCRequest *request = [FCRequest request];
-                               request.requestType = FCRequestTypeFormData;
+                               request.requestType = FCRequestTypeForm;
                                [request post:uploadURL params:params success:^(id obj) {
                                    NSLog(@"%@", obj);
                                } failure:^(NSError *error) {
@@ -83,9 +83,7 @@ static NSString * const kReuseCell = @"ReuseCell";
                                    
                                    dispatch_block_t block = ^
                                    {
-                                       FCAlertView *dialog = [FCAlertView dialogWithTitle:@"Please see log"];
-                                       dialog.cancelAble = NO;
-                                       [dialog showInVC:weakSelf];
+                                       [FCAlertView alertInVC:weakSelf message:@"Please see log"];
                                    };
                                    
                                    dispatch_async(dispatch_get_main_queue(), block);
