@@ -1,5 +1,5 @@
 //
-//  UpyunUploader.h
+//  UpyunFile.h
 //  AFNetworking
 //
 //  Created by fang on 2018/5/15.
@@ -9,7 +9,7 @@
 
 typedef void (^UpyunMetadataCallback)(NSString *remotePath, NSString *expiration, NSString *policy, NSString *signature, NSString *upyunAPI);
 
-@interface UpyunUploader : NSObject
+@interface UpyunFile : NSObject
 
 @property (nonatomic, readonly, copy) NSString *remotePath;
 

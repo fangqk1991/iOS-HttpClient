@@ -1,16 +1,16 @@
 //
-//  UpyunUploader.m
+//  UpyunFile.m
 //  AFNetworking
 //
 //  Created by fang on 2018/5/15.
 //
 
-#import "UpyunUploader.h"
+#import "UpyunFile.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "UpyunChunk.h"
 #import "FCRequest.h"
 
-@interface UpyunUploader()
+@interface UpyunFile()
 
 @property (nonatomic, readwrite, copy) NSString *fileExt;
 
@@ -25,7 +25,7 @@
 
 @end
 
-@implementation UpyunUploader
+@implementation UpyunFile
 
 - (NSString *)md5HashWithData:(NSData *)data
 {

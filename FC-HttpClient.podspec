@@ -57,7 +57,7 @@ TODO: Add long description of the pod here.
     upyun.dependency 'FC-HttpClient/Core'
 
     upyun.source_files = 'FC-HttpClient/Upyun/*.{h,m}'
-    upyun.public_header_files = 'FC-HttpClient/Upyun/*.h'
+    upyun.public_header_files = 'FC-HttpClient/Upyun/UpyunFile.h'
 
   end
   
