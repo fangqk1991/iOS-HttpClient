@@ -85,7 +85,7 @@ static NSString * const kReuseCell = @"ReuseCell";
                                    {
                                        FCAlertView *dialog = [FCAlertView dialogWithTitle:@"Please see log"];
                                        dialog.cancelAble = NO;
-                                       [dialog showInView:weakSelf];
+                                       [dialog showInVC:weakSelf];
                                    };
                                    
                                    dispatch_async(dispatch_get_main_queue(), block);
