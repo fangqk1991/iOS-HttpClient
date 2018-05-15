@@ -34,4 +34,7 @@ typedef void (^FCFailBlock)(NSError *error);
 
 + (instancetype)request;
 
+- (void)post:(NSString *)url params:(NSDictionary *)params success:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock;
+- (void)syncPost:(NSString *)url params:(NSDictionary *)params;
+
 @end

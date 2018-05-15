@@ -41,23 +41,77 @@
     _userAgent = [NSString stringWithFormat:@"APP-iOS-%.1f", [[UIDevice currentDevice].systemVersion floatValue]];
 }
 
-- (void)fc_post:(NSString *)url params:(NSDictionary *)params success:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock
+- (AFHTTPRequestSerializer *)fc_requestSerialize
 {
-    AFHTTPSessionManager *manager = [self sessionManager];
-    [manager POST:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
-        if(successBlock != nil)
-        {
-            successBlock(responseObject);
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if(failureBlock != nil)
-        {
-            failureBlock(error);
-        }
-    }];
+    AFHTTPRequestSerializer *serialize = (_requestType == FCRequestTypeJSON) ? [AFJSONRequestSerializer serializer] : [AFHTTPRequestSerializer serializer];
+    [serialize setValue:_userAgent forHTTPHeaderField:@"User-Agent"];
+    return serialize;
 }
 
-- (void)fc_syncPost:(NSString *)url params:(NSDictionary *)params
+- (AFHTTPResponseSerializer *)fc_responseSerialize
+{
+    AFHTTPResponseSerializer *serialize = (_responseType == FCResponseTypeJSON) ? [AFJSONResponseSerializer serializer] : [AFHTTPResponseSerializer serializer];
+    [serialize setAcceptableContentTypes:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", @"text/html", @"text/plain", nil]];
+    return serialize;
+}
+
+- (void)post:(NSString *)url params:(NSDictionary *)params success:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock
+{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [self fc_requestSerialize];
+    manager.responseSerializer = [self fc_responseSerialize];
+    
+    NSMutableDictionary *normalParams = [NSMutableDictionary dictionary];
+    NSMutableDictionary *dataParams = [NSMutableDictionary dictionary];
+    
+    for (NSString *key in [params allKeys])
+    {
+        if(![params[key] isKindOfClass:[NSData class]])
+        {
+            dataParams[key] = params[key];
+        }
+        else
+        {
+            normalParams[key] = params[key];
+        }
+    }
+    
+    if(dataParams.count > 0)
+    {
+        [manager POST:url parameters:normalParams constructingBodyWithBlock:^(id<AFMultipartFormData> _Nonnull formData) {
+            for (NSString *key in [dataParams allKeys])
+            {
+                [formData appendPartWithFileData:dataParams[key] name:key fileName:[NSString stringWithFormat:@"%@.xxx", key] mimeType:@"application/octet-stream"];
+            }
+        } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            if(successBlock != nil)
+            {
+                successBlock(responseObject);
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            if(failureBlock != nil)
+            {
+                failureBlock(error);
+            }
+        }];
+    }
+    else
+    {
+        [manager POST:url parameters:normalParams progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+            if(successBlock != nil)
+            {
+                successBlock(responseObject);
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            if(failureBlock != nil)
+            {
+                failureBlock(error);
+            }
+        }];
+    }
+}
+
+- (void)syncPost:(NSString *)url params:(NSDictionary *)params
 {
     if ([NSThread isMainThread]) {
         [NSException raise:NSInternalInconsistencyException format:@"[%@] Can not make a sync request on the main thread.", NSStringFromSelector(_cmd)];
@@ -67,28 +121,16 @@
     
     __weak typeof(self) weakSelf = self;
     
-    AFHTTPSessionManager *manager = [self sessionManager];
-    [manager POST:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+    [self post:url params:params success:^(id responseObject) {
         weakSelf.response = responseObject;
         weakSelf.succ = YES;
         dispatch_semaphore_signal(semaphore);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         weakSelf.error = error;
         dispatch_semaphore_signal(semaphore);
     }];
     
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-}
-
-- (AFHTTPSessionManager *)sessionManager
-{
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-//    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    [manager.requestSerializer setValue:_userAgent forHTTPHeaderField:@"User-Agent"];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", @"text/html", nil];
-    return manager;
 }
 
 @end
