@@ -3,9 +3,4 @@ use_frameworks!
 target 'FC-HttpClient_Example' do
   pod 'FC-HttpClient', :path => '../'
 
-  target 'FC-HttpClient_Tests' do
-    inherit! :search_paths
-
-    
-  end
 end
