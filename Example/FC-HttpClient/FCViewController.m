@@ -7,23 +7,35 @@
 //
 
 #import "FCViewController.h"
-
-@interface FCViewController ()
-
-@end
+#import "FCRequest.h"
+#import "FCAlertView.h"
 
 @implementation FCViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
+static NSString * const kReuseCell = @"ReuseCell";
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+    
+    __weak __typeof(self)weakSelf = self;
+    
+    self.infos = @[
+                   @[
+                       @{
+                           @"text": @"post json",
+                           @"event": ^{
+                               FCRequest *request = [FCRequest request];
+                               [request post:@"https://service.fangcha.me/api/test/http/test_post_json" params:nil success:^(id obj) {
+                                   NSLog(@"%@", obj);
+                               } failure:^(NSError *error) {
+                                   NSLog(@"Error: %@", error.localizedDescription);
+                               }];
+                           }
+                           },
+                       ],
+                   ];
+    
 }
 
 @end

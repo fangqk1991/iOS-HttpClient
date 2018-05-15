@@ -3,4 +3,5 @@ use_frameworks!
 target 'FC-HttpClient_Example' do
   pod 'FC-HttpClient', :path => '../'
 
+  pod 'FC-Utils', :git => 'https://github.com/fangqk1991/iOS-Utils.git'
 end
