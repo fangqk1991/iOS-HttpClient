@@ -30,7 +30,7 @@ typedef void (^FCFailBlock)(NSError *error);
 @property (nonatomic, readonly) BOOL succ;
 @property (nonatomic, strong, readonly) id response;
 @property (nonatomic, strong, readonly) NSError *error;
-@property (nonatomic, strong, readonly) NSString *userAgent;
+@property (nonatomic, strong, readwrite) NSString *userAgent;
 
 + (instancetype)request;
 
