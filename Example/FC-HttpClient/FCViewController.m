@@ -9,6 +9,7 @@
 #import "FCViewController.h"
 #import "FCRequest.h"
 #import "FCAlertView.h"
+#import "MyUpyunFile.h"
 
 @implementation FCViewController
 
@@ -90,6 +91,20 @@ static NSString * const kReuseCell = @"ReuseCell";
                                };
                                
                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block);
+                           }
+                           },
+                       ],
+                   @[
+                       @{
+                           @"text": @"Upyun Upload",
+                           @"event": ^{
+                               MyUpyunFile *file = [MyUpyunFile fileWithText:@"Test"];
+                               [file asyncUploadWithSuccess:^(NSString *remoteURL) {
+                                   [FCAlertView alertInVC:weakSelf message:remoteURL];
+                                   NSLog(@"%@", remoteURL);
+                               } failure:^(NSError *error) {
+                                   NSLog(@"%@", error.localizedDescription);
+                               }];
                            }
                            },
                        ],

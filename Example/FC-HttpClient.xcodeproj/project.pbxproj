@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3202435620AB30EC00E7DA14 /* MyUpyunFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3202435520AB30EC00E7DA14 /* MyUpyunFile.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -25,6 +26,8 @@
 		0FB558EA25A089EA5D41E680 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		1A02BA8F7E80BF7B4B5DFC6C /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		3136BDECEA9FF692A1391AFD /* Pods-FC-HttpClient_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FC-HttpClient_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FC-HttpClient_Tests/Pods-FC-HttpClient_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		3202435420AB30EC00E7DA14 /* MyUpyunFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyUpyunFile.h; sourceTree = "<group>"; };
+		3202435520AB30EC00E7DA14 /* MyUpyunFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyUpyunFile.m; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* FC-HttpClient_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FC-HttpClient_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -118,6 +121,8 @@
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
+				3202435420AB30EC00E7DA14 /* MyUpyunFile.h */,
+				3202435520AB30EC00E7DA14 /* MyUpyunFile.m */,
 			);
 			name = "Example for FC-HttpClient";
 			path = "FC-HttpClient";
@@ -283,6 +288,7 @@
 				6003F59E195388D20070C39A /* FCAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* FCViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				3202435620AB30EC00E7DA14 /* MyUpyunFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

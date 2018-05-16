@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSData *data;
 @property (nonatomic, readwrite) NSUInteger blockSize;
 
-@property (nonatomic, readwrite, copy) NSString *remotePath;
+@property (nonatomic, readwrite, copy) NSString *remoteURL;
 @property (nonatomic, readwrite, copy) NSString *expiration;
 @property (nonatomic, readwrite, copy) NSString *policy;
 @property (nonatomic, readwrite, copy) NSString *signature;
@@ -63,15 +63,15 @@
     NSUInteger fileSize = [self fileSize];
     NSUInteger blockCount = ceil(fileSize * 1.0 / _blockSize);
     
-    [self getMetadataWithBlockCount:blockCount fileSize:fileSize fileHash:fileHash fileExt:_fileExt callback:^(NSString *remotePath, NSString *expiration, NSString *policy, NSString *signature, NSString *upyunAPI) {
-        self.remotePath = remotePath;
+    [self getMetadataWithBlockCount:blockCount fileSize:fileSize fileHash:fileHash fileExt:_fileExt callback:^(NSString *remoteURL, NSString *expiration, NSString *policy, NSString *signature, NSString *upyunAPI) {
+        self.remoteURL = remoteURL;
         self.expiration = expiration;
         self.policy = policy;
         self.signature = signature;
         self.upyunAPI = upyunAPI;
     }];
     
-    if(_remotePath == nil
+    if(_remoteURL == nil
        || _expiration == nil
        || _policy == nil
        || _signature == nil
@@ -100,7 +100,7 @@
             {
                 if(failureBlock != nil)
                 {
-                    NSError *error = [NSError errorWithDomain:@"Async.Upload" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"上传图片失败"}];
+                    NSError *error = [NSError errorWithDomain:@"Async.Upload" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"上传失败"}];
                     failureBlock(error);
                 }
             }
@@ -111,12 +111,6 @@
 - (void)getMetadataWithBlockCount:(NSUInteger)blockCount fileSize:(NSUInteger)fileSize fileHash:(NSString *)fileHash fileExt:(NSString *)fileExt callback:(UpyunMetadataCallback)callback
 {
     [NSException raise:NSInternalInconsistencyException format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
-}
-
-- (NSString *)remoteURL
-{
-    [NSException raise:NSInternalInconsistencyException format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
-    return nil;
 }
 
 - (BOOL)uploadToUpyun
@@ -184,7 +178,7 @@
         request.requestType = FCRequestTypeForm;
         request.responseType = FCRequestTypeJSON;
         [request syncPost:_upyunAPI params:@{@"policy": policy, @"signature": signature}];
-        if(!request.succ)
+        if(request.succ)
         {
             return YES;
         }
@@ -196,7 +190,7 @@
 - (NSString *)description
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    dic[@"remotePath"] = _remotePath;
+    dic[@"remoteURL"] = _remoteURL;
     dic[@"expiration"] = _expiration;
     dic[@"policy"] = _policy;
     dic[@"signature"] = _signature;

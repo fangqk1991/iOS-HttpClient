@@ -7,11 +7,11 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^UpyunMetadataCallback)(NSString *remotePath, NSString *expiration, NSString *policy, NSString *signature, NSString *upyunAPI);
+typedef void (^UpyunMetadataCallback)(NSString *remoteURL, NSString *expiration, NSString *policy, NSString *signature, NSString *upyunAPI);
 
 @interface UpyunFile : NSObject
 
-@property (nonatomic, readonly, copy) NSString *remotePath;
+@property (nonatomic, readonly, copy) NSString *remoteURL;
 
 - (instancetype)initWithData:(NSData *)data fileExt:(NSString *)fileExt;
 
