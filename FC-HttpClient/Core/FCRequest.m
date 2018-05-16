@@ -13,7 +13,7 @@
 @property (nonatomic, readwrite) BOOL succ;
 @property (nonatomic, strong, readwrite) id response;
 @property (nonatomic, strong, readwrite) NSError *error;
-@property (nonatomic, strong) NSString *userAgent;
+@property (nonatomic, strong, readwrite) NSString *userAgent;
 
 @end
 
