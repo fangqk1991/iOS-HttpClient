@@ -10,6 +10,7 @@
 #import "FCRequest.h"
 #import "FCAlertView.h"
 #import "MyUpyunFile.h"
+#import "UIView+FCRequest.h"
 
 @implementation FCViewController
 
@@ -23,6 +24,7 @@ static NSString * const kReuseCell = @"ReuseCell";
 
     NSString *url = @"https://service.fangcha.me/api/test/http/test_post_json";
     NSString *uploadURL = @"https://service.fangcha.me/api/test/http/test_post_files";
+    NSString *delayURL = @"https://service.fangcha.me/api/test/http/test_delay";
     
     self.infos = @[
                    @[
@@ -104,6 +106,19 @@ static NSString * const kReuseCell = @"ReuseCell";
                                    NSLog(@"%@", remoteURL);
                                } failure:^(NSError *error) {
                                    NSLog(@"%@", error.localizedDescription);
+                               }];
+                           }
+                           },
+                       ],
+                   @[
+                       @{
+                           @"text": @"With ProgressHUD",
+                           @"event": ^{
+                               FCRequest *request = [FCRequest requestWithURL:delayURL params:nil];
+                               [weakSelf.view startRequest:request success:^(id obj) {
+                                   [FCAlertView alertInVC:weakSelf message:@"Finish!"];
+                               } failure:^(NSError *error) {
+                                   [FCAlertView alertInVC:weakSelf message:error.localizedDescription];
                                }];
                            }
                            },

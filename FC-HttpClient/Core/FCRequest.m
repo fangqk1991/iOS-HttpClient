@@ -33,6 +33,14 @@
     return [[[self class] alloc] init];
 }
 
++ (instancetype)requestWithURL:(NSString *)url params:(NSDictionary *)params
+{
+    FCRequest *request = [self request];
+    request.url = url;
+    request.params = params;
+    return request;
+}
+
 - (void)fc_loadDefaultSettings
 {
     _requestType = FCRequestTypeJSON;
@@ -56,10 +64,18 @@
 
 - (void)post:(NSString *)url params:(NSDictionary *)params success:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock
 {
+    self.url = url;
+    self.params = params;
+    
+    [self asyncPost:successBlock failure:failureBlock];
+}
+- (void)asyncPost:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock
+{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [self fc_requestSerialize];
     manager.responseSerializer = [self fc_responseSerialize];
     
+    NSDictionary *params = _params;
     NSMutableDictionary *normalParams = [NSMutableDictionary dictionary];
     NSMutableDictionary *dataParams = [NSMutableDictionary dictionary];
     
@@ -77,7 +93,7 @@
     
     if(dataParams.count > 0)
     {
-        [manager POST:url parameters:normalParams constructingBodyWithBlock:^(id<AFMultipartFormData> _Nonnull formData) {
+        [manager POST:_url parameters:normalParams constructingBodyWithBlock:^(id<AFMultipartFormData> _Nonnull formData) {
             for (NSString *key in [dataParams allKeys])
             {
                 [formData appendPartWithFileData:dataParams[key] name:key fileName:[NSString stringWithFormat:@"%@.xxx", key] mimeType:@"application/octet-stream"];
@@ -96,7 +112,7 @@
     }
     else
     {
-        [manager POST:url parameters:normalParams progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+        [manager POST:_url parameters:normalParams progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
             if(successBlock != nil)
             {
                 successBlock(responseObject);
@@ -112,6 +128,13 @@
 
 - (void)syncPost:(NSString *)url params:(NSDictionary *)params
 {
+    self.url = url;
+    self.params = params;
+    [self syncPost];
+}
+
+- (void)syncPost
+{
     if ([NSThread isMainThread]) {
         [NSException raise:NSInternalInconsistencyException format:@"[%@] Can not make a sync request on the main thread.", NSStringFromSelector(_cmd)];
     }
@@ -120,7 +143,7 @@
     
     __weak typeof(self) weakSelf = self;
     
-    [self post:url params:params success:^(id responseObject) {
+    [self post:_url params:_params success:^(id responseObject) {
         weakSelf.response = responseObject;
         weakSelf.succ = YES;
         dispatch_semaphore_signal(semaphore);

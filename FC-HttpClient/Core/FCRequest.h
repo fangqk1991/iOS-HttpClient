@@ -27,14 +27,21 @@ typedef void (^FCFailBlock)(NSError *error);
 @property (nonatomic, readwrite) FCRequestType requestType;
 @property (nonatomic, readwrite) FCResponseType responseType;
 
+@property (nonatomic, readwrite) NSString *url;
+@property (nonatomic, readwrite) NSDictionary *params;
+
 @property (nonatomic, readonly) BOOL succ;
 @property (nonatomic, strong, readonly) id response;
 @property (nonatomic, strong, readonly) NSError *error;
 @property (nonatomic, strong, readwrite) NSString *userAgent;
 
 + (instancetype)request;
++ (instancetype)requestWithURL:(NSString *)url params:(NSDictionary *)params;
 
+- (void)asyncPost:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock;
 - (void)post:(NSString *)url params:(NSDictionary *)params success:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock;
+
+- (void)syncPost;
 - (void)syncPost:(NSString *)url params:(NSDictionary *)params;
 
 @end
