@@ -11,6 +11,7 @@
 #import "FCAlertView.h"
 #import "MyUpyunFile.h"
 #import "UIView+FCRequest.h"
+#import "AFNetworking.h"
 
 @implementation FCViewController
 
@@ -25,6 +26,7 @@ static NSString * const kReuseCell = @"ReuseCell";
     NSString *normalURL = @"https://service.fangcha.me/api/test/http/test_post_json";
     NSString *uploadURL = @"https://service.fangcha.me/api/test/http/test_post_files";
     NSString *delayURL = @"https://service.fangcha.me/api/test/http/test_delay";
+    NSString *codeURL = @"https://service.fangcha.me/api/test/http/test_code";
     
     self.infos = @[
                    @[
@@ -64,6 +66,21 @@ static NSString * const kReuseCell = @"ReuseCell";
                                    NSLog(@"%@", obj);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
+                               }];
+                           }
+                           },
+                       @{
+                           @"text": @"other response code",
+                           @"event": ^{
+                               NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss"};
+                               FCRequest *request = [FCRequest requestWithURL:codeURL params:params];
+                               request.requestType = FCRequestTypeJSON;
+                               [request asyncPost:^(id obj) {
+                                   NSLog(@"%@", obj);
+                               } failure:^(NSError *error) {
+                                   NSString *errorResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
+                                   NSLog(@"Error Body: %@", errorResponse);
+                                   NSLog(@"Error localizedDescription: %@", [error localizedDescription]);
                                }];
                            }
                            },

@@ -41,7 +41,7 @@
     if(request.succ)
     {
         NSDictionary *response = request.response;
-        if([response[@"succ"] intValue] == 1 && response[@"data"])
+        if(response[@"data"])
         {
             NSDictionary *dic = response[@"data"];
             callback(dic[@"remote_url"], dic[@"expiration"], dic[@"policy"], dic[@"signature"], dic[@"upyun_api"]);
