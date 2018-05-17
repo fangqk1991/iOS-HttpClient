@@ -22,7 +22,7 @@ static NSString * const kReuseCell = @"ReuseCell";
     
     __weak typeof(self) weakSelf = self;
 
-    NSString *url = @"https://service.fangcha.me/api/test/http/test_post_json";
+    NSString *normalURL = @"https://service.fangcha.me/api/test/http/test_post_json";
     NSString *uploadURL = @"https://service.fangcha.me/api/test/http/test_post_files";
     NSString *delayURL = @"https://service.fangcha.me/api/test/http/test_delay";
     
@@ -32,9 +32,9 @@ static NSString * const kReuseCell = @"ReuseCell";
                            @"text": @"application/json",
                            @"event": ^{
                                NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss"};
-                               FCRequest *request = [FCRequest request];
+                               FCRequest *request = [FCRequest requestWithURL:normalURL params:params];
                                request.requestType = FCRequestTypeJSON;
-                               [request post:url params:params success:^(id obj) {
+                               [request asyncPost:^(id obj) {
                                    NSLog(@"%@", obj);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
@@ -45,9 +45,9 @@ static NSString * const kReuseCell = @"ReuseCell";
                            @"text": @"application/x-www-form-urlencoded",
                            @"event": ^{
                                NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss"};
-                               FCRequest *request = [FCRequest request];
+                               FCRequest *request = [FCRequest requestWithURL:normalURL params:params];
                                request.requestType = FCRequestTypeForm;
-                               [request post:url params:params success:^(id obj) {
+                               [request asyncPost:^(id obj) {
                                    NSLog(@"%@", obj);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
@@ -58,9 +58,9 @@ static NSString * const kReuseCell = @"ReuseCell";
                            @"text": @"multipart/form-data",
                            @"event": ^{
                                NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss", @"file_a": [@"file_a" dataUsingEncoding:NSUTF8StringEncoding], @"file_b": [@"file_b" dataUsingEncoding:NSUTF8StringEncoding]};
-                               FCRequest *request = [FCRequest request];
+                               FCRequest *request = [FCRequest requestWithURL:uploadURL params:params];
                                request.requestType = FCRequestTypeForm;
-                               [request post:uploadURL params:params success:^(id obj) {
+                               [request asyncPost:^(id obj) {
                                    NSLog(@"%@", obj);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
@@ -78,9 +78,9 @@ static NSString * const kReuseCell = @"ReuseCell";
                                    {
                                        NSLog(@"Start SyncRequest %d", i);
                                        NSDictionary *params = @{@"index": @(i)};
-                                       FCRequest *request = [FCRequest request];
+                                       FCRequest *request = [FCRequest requestWithURL:normalURL params:params];
                                        request.requestType = FCRequestTypeJSON;
-                                       [request syncPost:url params:params];
+                                       [request syncPost];
                                        NSLog(@"Response: %@", request.response);
                                    }
                                    

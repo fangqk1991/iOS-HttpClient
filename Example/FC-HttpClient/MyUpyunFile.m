@@ -36,8 +36,8 @@
     parameters[@"file_hash"] = fileHash;
     parameters[@"file_ext"] = fileExt;
     
-    FCRequest *request = [FCRequest request];
-    [request syncPost:@"https://service.fangcha.me/api/upload/upyun_metadata" params:parameters];
+    FCRequest *request = [FCRequest requestWithURL:@"https://service.fangcha.me/api/upload/upyun_metadata" params:parameters];
+    [request syncPost];
     if(request.succ)
     {
         NSDictionary *response = request.response;

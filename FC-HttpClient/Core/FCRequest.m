@@ -10,6 +10,9 @@
 
 @interface FCRequest()
 
+@property (nonatomic, readwrite) NSString *url;
+@property (nonatomic, readwrite) NSDictionary *params;
+
 @property (nonatomic, readwrite) BOOL succ;
 @property (nonatomic, strong, readwrite) id response;
 @property (nonatomic, strong, readwrite) NSError *error;
@@ -28,17 +31,22 @@
     return self;
 }
 
-+ (instancetype)request
+- (instancetype)initWithURL:(NSString *)url params:(NSDictionary *)params
 {
-    return [[[self class] alloc] init];
+    self = [self init];
+    
+    if(self)
+    {
+        self.url = url;
+        self.params = params;
+    }
+    
+    return self;
 }
 
 + (instancetype)requestWithURL:(NSString *)url params:(NSDictionary *)params
 {
-    FCRequest *request = [self request];
-    request.url = url;
-    request.params = params;
-    return request;
+    return [[[self class] alloc] initWithURL:url params:params];
 }
 
 - (void)fc_loadDefaultSettings
@@ -62,13 +70,6 @@
     return serialize;
 }
 
-- (void)post:(NSString *)url params:(NSDictionary *)params success:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock
-{
-    self.url = url;
-    self.params = params;
-    
-    [self asyncPost:successBlock failure:failureBlock];
-}
 - (void)asyncPost:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -126,13 +127,6 @@
     }
 }
 
-- (void)syncPost:(NSString *)url params:(NSDictionary *)params
-{
-    self.url = url;
-    self.params = params;
-    [self syncPost];
-}
-
 - (void)syncPost
 {
     if ([NSThread isMainThread]) {
@@ -143,7 +137,7 @@
     
     __weak typeof(self) weakSelf = self;
     
-    [self post:_url params:_params success:^(id responseObject) {
+    [self asyncPost:^(id responseObject) {
         weakSelf.response = responseObject;
         weakSelf.succ = YES;
         dispatch_semaphore_signal(semaphore);

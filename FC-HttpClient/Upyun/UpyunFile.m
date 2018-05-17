@@ -118,10 +118,10 @@
     // Init upload
     UpyunChunk *currentItem = nil;
     {
-        FCRequest *request = [FCRequest request];
+        FCRequest *request = [FCRequest requestWithURL:_upyunAPI params:@{@"policy": _policy, @"signature": _signature}];
         request.requestType = FCRequestTypeForm;
         request.responseType = FCRequestTypeJSON;
-        [request syncPost:_upyunAPI params:@{@"policy": _policy, @"signature": _signature}];
+        [request syncPost];
         if(!request.succ)
         {
             return NO;
@@ -155,10 +155,10 @@
         NSString *policy = [UpyunChunk createPolicyWithParams:policyParameters];
         NSString *signature = [UpyunChunk createSignatureWithToken:currentItem.tokenSecret params:policyParameters];
         
-        FCRequest *request = [FCRequest request];
+        FCRequest *request = [FCRequest requestWithURL:_upyunAPI params:@{@"policy": policy, @"signature": signature, @"file": packet}];
         request.requestType = FCRequestTypeForm;
         request.responseType = FCRequestTypeJSON;
-        [request syncPost:_upyunAPI params:@{@"policy": policy, @"signature": signature, @"file": packet}];
+        [request syncPost];
         if(!request.succ)
         {
             return NO;
@@ -174,10 +174,10 @@
         NSString *policy = [UpyunChunk createPolicyWithParams:policyParameters];
         NSString *signature = [UpyunChunk createSignatureWithToken:currentItem.tokenSecret params:policyParameters];
         
-        FCRequest *request = [FCRequest request];
+        FCRequest *request = [FCRequest requestWithURL:_upyunAPI params:@{@"policy": policy, @"signature": signature}];
         request.requestType = FCRequestTypeForm;
         request.responseType = FCRequestTypeJSON;
-        [request syncPost:_upyunAPI params:@{@"policy": policy, @"signature": signature}];
+        [request syncPost];
         if(request.succ)
         {
             return YES;
