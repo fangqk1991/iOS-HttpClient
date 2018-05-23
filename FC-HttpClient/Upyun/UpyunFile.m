@@ -157,6 +157,12 @@
         FCRequest *request = [FCRequest requestWithURL:_upyunAPI params:@{@"policy": policy, @"signature": signature, @"file": packet}];
         request.requestType = FCRequestTypeForm;
         request.responseType = FCRequestTypeJSON;
+        request.progressBlock = ^(NSProgress *progress) {
+            if(self.progressBlock)
+            {
+                self.progressBlock(1.0 * (progress.completedUnitCount + start) / fileSize);
+            }
+        };
         [request syncPost];
         if(!request.succ)
         {

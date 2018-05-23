@@ -13,6 +13,7 @@
 #import "UIView+FCRequest.h"
 #import "AFNetworking.h"
 #import "NSLogger.h"
+#import "MBProgressHUD.h"
 
 @implementation FCViewController
 
@@ -121,11 +122,23 @@ static NSString * const kReuseCell = @"ReuseCell";
                        @{
                            @"text": @"Upyun Upload",
                            @"event": ^{
+                               MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
+                               hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
+                               
                                MyUpyunFile *file = [MyUpyunFile fileWithText:[self longText]];
+                               file.progressBlock = ^(float progress) {
+                                   LoggerApp(3, @"%.2f", progress);
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                       hud.progress = progress;
+                                       hud.detailsLabel.text = [NSString stringWithFormat:@"%d%%", (int)(progress * 100)];
+                                   });
+                               };
                                [file asyncUploadWithSuccess:^(NSString *remoteURL) {
-                                   [FCAlertView alertInVC:weakSelf message:remoteURL];
+                                   hud.detailsLabel.text = @"上传成功";
+                                   [hud hideAnimated:YES afterDelay:1.2f];
                                    LoggerApp(3, @"%@", remoteURL);
                                } failure:^(NSError *error) {
+                                   [hud hideAnimated:YES];
                                    LoggerError(3, @"Error: %@", error.localizedDescription);
                                }];
                            }
@@ -164,7 +177,7 @@ static NSString * const kReuseCell = @"ReuseCell";
 
 - (NSString *)longText
 {
-    NSMutableString *str = [[NSMutableString alloc] initWithString:@"ABC"];
+    NSMutableString *str = [[NSMutableString alloc] initWithString:@"ABCDEFG"];
     for(int i = 0; i < 20; ++i)
     {
         [str appendString:str];
