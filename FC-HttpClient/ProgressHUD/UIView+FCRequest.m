@@ -14,6 +14,11 @@
 - (void)startRequest:(FCRequest *)request success:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+    request.progressBlock = ^(NSProgress *progress) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            hud.detailsLabel.text = [NSString stringWithFormat:@"%d%%", (int)(1.0 * progress.completedUnitCount / progress.totalUnitCount * 100)];
+        });
+    };
     
     [request asyncPost:^(id obj) {
         [hud hideAnimated:YES];

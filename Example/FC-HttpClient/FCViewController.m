@@ -12,6 +12,7 @@
 #import "MyUpyunFile.h"
 #import "UIView+FCRequest.h"
 #import "AFNetworking.h"
+#import "NSLogger.h"
 
 @implementation FCViewController
 
@@ -59,13 +60,16 @@ static NSString * const kReuseCell = @"ReuseCell";
                        @{
                            @"text": @"multipart/form-data",
                            @"event": ^{
-                               NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss", @"file_a": [@"file_a" dataUsingEncoding:NSUTF8StringEncoding], @"file_b": [@"file_b" dataUsingEncoding:NSUTF8StringEncoding]};
+                               NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss", @"file_a": [@"file_a" dataUsingEncoding:NSUTF8StringEncoding]};
                                FCRequest *request = [FCRequest requestWithURL:uploadURL params:params];
                                request.requestType = FCRequestTypeForm;
+                               request.progressBlock = ^(NSProgress *progress) {
+                                   LoggerApp(3, @"progress: %@/%@", @(progress.completedUnitCount), @(progress.totalUnitCount));
+                               };
                                [request asyncPost:^(id obj) {
-                                   NSLog(@"%@", obj);
+                                   LoggerApp(3, @"%@", obj);
                                } failure:^(NSError *error) {
-                                   NSLog(@"Error: %@", error.localizedDescription);
+                                   LoggerError(3, @"Error: %@", error.localizedDescription);
                                }];
                            }
                            },
@@ -117,7 +121,7 @@ static NSString * const kReuseCell = @"ReuseCell";
                        @{
                            @"text": @"Upyun Upload",
                            @"event": ^{
-                               MyUpyunFile *file = [MyUpyunFile fileWithText:@"Test"];
+                               MyUpyunFile *file = [MyUpyunFile fileWithText:[self longText]];
                                [file asyncUploadWithSuccess:^(NSString *remoteURL) {
                                    [FCAlertView alertInVC:weakSelf message:remoteURL];
                                    NSLog(@"%@", remoteURL);
@@ -129,19 +133,44 @@ static NSString * const kReuseCell = @"ReuseCell";
                        ],
                    @[
                        @{
-                           @"text": @"With ProgressHUD",
+                           @"text": @"With Loading",
                            @"event": ^{
-                               FCRequest *request = [FCRequest requestWithURL:delayURL params:nil];
+                               FCRequest *request = [FCRequest requestWithURL:delayURL params:@{}];
+                               request.requestType = FCRequestTypeForm;
                                [weakSelf.view startRequest:request success:^(id obj) {
-                                   [FCAlertView alertInVC:weakSelf message:@"Finish!"];
+                                   LoggerApp(3, @"%@", obj);
                                } failure:^(NSError *error) {
-                                   [FCAlertView alertInVC:weakSelf message:error.localizedDescription];
+                                   LoggerError(3, @"Error: %@", error.localizedDescription);
+                               }];
+                           }
+                           },
+                       @{
+                           @"text": @"With Progress",
+                           @"event": ^{
+                               NSDictionary *params = @{@"file": [[self longText] dataUsingEncoding:NSUTF8StringEncoding]};
+                               FCRequest *request = [FCRequest requestWithURL:uploadURL params:params];
+                               request.requestType = FCRequestTypeForm;
+                               [weakSelf.view startRequest:request success:^(id obj) {
+                                   LoggerApp(3, @"%@", obj);
+                               } failure:^(NSError *error) {
+                                   LoggerError(3, @"Error: %@", error.localizedDescription);
                                }];
                            }
                            },
                        ],
                    ];
     
+}
+
+- (NSString *)longText
+{
+    NSMutableString *str = [[NSMutableString alloc] initWithString:@"ABC"];
+    for(int i = 0; i < 20; ++i)
+    {
+        [str appendString:str];
+    }
+    
+    return str;
 }
 
 @end
