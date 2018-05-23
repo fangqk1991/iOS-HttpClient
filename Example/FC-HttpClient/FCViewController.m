@@ -177,7 +177,7 @@ static NSString * const kReuseCell = @"ReuseCell";
 
 - (NSString *)longText
 {
-    NSMutableString *str = [[NSMutableString alloc] initWithString:@"ABCDEFG"];
+    NSMutableString *str = [[NSMutableString alloc] initWithString:@"ABC"];
     for(int i = 0; i < 20; ++i)
     {
         [str appendString:str];
