@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, FCResponseType)
 
 typedef void (^FCSuccBlock)(id obj);
 typedef void (^FCFailBlock)(NSError *error);
+typedef void (^FCProgressBlock)(NSProgress *progress);
 
 @interface FCRequest : NSObject
 
@@ -34,6 +35,8 @@ typedef void (^FCFailBlock)(NSError *error);
 @property (nonatomic, strong, readonly) id response;
 @property (nonatomic, strong, readonly) NSError *error;
 @property (nonatomic, strong, readwrite) NSString *userAgent;
+
+@property (nonatomic, copy) FCProgressBlock progressBlock;
 
 - (instancetype)initWithURL:(NSString *)url params:(NSDictionary *)params;
 + (instancetype)requestWithURL:(NSString *)url params:(NSDictionary *)params;

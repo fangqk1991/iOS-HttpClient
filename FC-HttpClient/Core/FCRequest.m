@@ -99,7 +99,7 @@
             {
                 [formData appendPartWithFileData:dataParams[key] name:key fileName:[NSString stringWithFormat:@"%@.xxx", key] mimeType:@"application/octet-stream"];
             }
-        } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        } progress:_progressBlock success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             if(successBlock != nil)
             {
                 successBlock(responseObject);
