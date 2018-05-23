@@ -38,18 +38,17 @@ static NSString * const kTokenSecret = @"token_secret";
     return obj;
 }
 
-- (NSArray *)todoBlockIndices
+- (int)getTodoIndex
 {
-    NSMutableArray *indices = [NSMutableArray array];
     for (int i = 0; i < _statusList.count; i++)
     {
         if (![_statusList[i] boolValue])
         {
-            [indices addObject:@(i)];
+            return i;
         }
     }
     
-    return indices;
+    return -1;
 }
 
 + (NSString *)createPolicyWithParams:(NSDictionary *)params

@@ -134,14 +134,13 @@
     // Upload blocks
     while(currentItem != nil)
     {
-        NSArray *todoBlockIndices = [currentItem todoBlockIndices];
+        int curIndex = [currentItem getTodoIndex];
         
-        if(todoBlockIndices.count == 0)
+        if(curIndex == -1)
         {
             break;
         }
         
-        int curIndex = [todoBlockIndices[0] intValue];
         NSUInteger start = curIndex * self.blockSize;
         NSUInteger end = start + self.blockSize;
         end = (end > fileSize ? fileSize : end);

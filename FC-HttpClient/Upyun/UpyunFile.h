@@ -7,10 +7,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^UpyunProgressBlock)(NSUInteger current, NSUInteger total);
 typedef void (^UpyunMetadataCallback)(NSString *remoteURL, NSString *expiration, NSString *policy, NSString *signature, NSString *upyunAPI);
 
 @interface UpyunFile : NSObject
 
+@property (nonatomic, copy) UpyunProgressBlock progressBlock;
 @property (nonatomic, readonly, copy) NSString *remoteURL;
 
 - (instancetype)initWithData:(NSData *)data fileExt:(NSString *)fileExt;

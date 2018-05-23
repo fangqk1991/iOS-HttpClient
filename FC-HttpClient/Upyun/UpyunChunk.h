@@ -15,7 +15,7 @@
 
 + (instancetype)feedWithDic:(NSDictionary *)dic;
 
-- (NSArray *)todoBlockIndices;
+- (int)getTodoIndex;
 + (NSString *)createPolicyWithParams:(NSDictionary *)params;
 + (NSString *)createSignatureWithToken:(NSString *)token params:(NSDictionary *)params;
 

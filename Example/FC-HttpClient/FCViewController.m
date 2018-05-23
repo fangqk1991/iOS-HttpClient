@@ -124,9 +124,9 @@ static NSString * const kReuseCell = @"ReuseCell";
                                MyUpyunFile *file = [MyUpyunFile fileWithText:[self longText]];
                                [file asyncUploadWithSuccess:^(NSString *remoteURL) {
                                    [FCAlertView alertInVC:weakSelf message:remoteURL];
-                                   NSLog(@"%@", remoteURL);
+                                   LoggerApp(3, @"%@", remoteURL);
                                } failure:^(NSError *error) {
-                                   NSLog(@"%@", error.localizedDescription);
+                                   LoggerError(3, @"Error: %@", error.localizedDescription);
                                }];
                            }
                            },
