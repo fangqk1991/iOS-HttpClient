@@ -14,6 +14,7 @@
 #import "AFNetworking.h"
 #import "NSLogger.h"
 #import "MBProgressHUD.h"
+#import "FCTypicalRequest.h"
 
 @implementation FCViewController
 
@@ -81,16 +82,14 @@ static NSString * const kReuseCell = @"ReuseCell";
                                FCRequest *request = [FCRequest requestWithURL:codeURL params:params];
                                request.requestType = FCRequestTypeJSON;
                                [request asyncPost:^(id obj) {
-                                   NSLog(@"%@", obj);
+                                   LoggerApp(3, @"%@", obj);
                                } failure:^(NSError *error) {
                                    NSString *errorResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
-                                   NSLog(@"Error Body: %@", errorResponse);
-                                   NSLog(@"Error localizedDescription: %@", [error localizedDescription]);
+                                   LoggerError(3, @"Error Body: %@", errorResponse);
+                                   LoggerError(3, @"Error localizedDescription: %@", [error localizedDescription]);
                                }];
                            }
                            },
-                       ],
-                   @[
                        @{
                            @"text": @"SyncRequest",
                            @"event": ^{
@@ -115,6 +114,18 @@ static NSString * const kReuseCell = @"ReuseCell";
                                };
                                
                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block);
+                           }
+                           },
+                       @{
+                           @"text": @"FCTypicalRequest",
+                           @"event": ^{
+                               NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss"};
+                               FCTypicalRequest *request = [FCTypicalRequest requestWithURL:normalURL params:params];
+                               [request asyncPost:^(id obj) {
+                                   NSLog(@"%@", obj);
+                               } failure:^(NSError *error) {
+                                   NSLog(@"Error: %@", error.localizedDescription);
+                               }];
                            }
                            },
                        ],
