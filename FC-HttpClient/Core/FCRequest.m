@@ -31,6 +31,11 @@
     return self;
 }
 
+- (instancetype)initWithURL:(NSString *)url
+{
+    return [self initWithURL:url params:nil];
+}
+
 - (instancetype)initWithURL:(NSString *)url params:(NSDictionary *)params
 {
     self = [self init];
@@ -39,6 +44,11 @@
     {
         self.url = url;
         self.params = params;
+        
+        if(self.params == nil)
+        {
+            self.params = @{};
+        }
     }
     
     return self;
@@ -138,6 +148,47 @@
     __weak typeof(self) weakSelf = self;
     
     [self asyncPost:^(id responseObject) {
+        weakSelf.response = responseObject;
+        weakSelf.succ = YES;
+        dispatch_semaphore_signal(semaphore);
+    } failure:^(NSError *error) {
+        weakSelf.error = error;
+        dispatch_semaphore_signal(semaphore);
+    }];
+    
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+}
+
+- (void)asyncGet:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock
+{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [self fc_requestSerialize];
+    manager.responseSerializer = [self fc_responseSerialize];
+    
+    [manager GET:_url parameters:_params progress:_progressBlock success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(successBlock != nil)
+        {
+            successBlock(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if(failureBlock != nil)
+        {
+            failureBlock(error);
+        }
+    }];
+}
+
+- (void)syncGet
+{
+    if ([NSThread isMainThread]) {
+        [NSException raise:NSInternalInconsistencyException format:@"[%@] Can not make a sync request on the main thread.", NSStringFromSelector(_cmd)];
+    }
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+    __weak typeof(self) weakSelf = self;
+    
+    [self asyncGet:^(id responseObject) {
         weakSelf.response = responseObject;
         weakSelf.succ = YES;
         dispatch_semaphore_signal(semaphore);

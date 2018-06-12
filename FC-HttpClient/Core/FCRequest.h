@@ -38,10 +38,14 @@ typedef void (^FCProgressBlock)(NSProgress *progress);
 
 @property (nonatomic, copy) FCProgressBlock progressBlock;
 
+- (instancetype)initWithURL:(NSString *)url;
 - (instancetype)initWithURL:(NSString *)url params:(NSDictionary *)params;
 + (instancetype)requestWithURL:(NSString *)url params:(NSDictionary *)params;
 
 - (void)asyncPost:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock;
 - (void)syncPost;
+
+- (void)asyncGet:(FCSuccBlock)successBlock failure:(FCFailBlock)failureBlock;
+- (void)syncGet;
 
 @end

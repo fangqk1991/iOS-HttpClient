@@ -128,6 +128,17 @@ static NSString * const kReuseCell = @"ReuseCell";
                                }];
                            }
                            },
+                       @{
+                           @"text": @"GetRequest",
+                           @"event": ^{
+                               FCRequest *request = [[FCRequest alloc] initWithURL:normalURL];
+                               [request asyncGet:^(id obj) {
+                                   LoggerApp(3, @"%@", obj);
+                               } failure:^(NSError *error) {
+                                   LoggerError(3, @"Error: %@", error.localizedDescription);
+                               }];
+                           }
+                           },
                        ],
                    @[
                        @{
