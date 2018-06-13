@@ -61,6 +61,7 @@
 
 - (void)fc_loadDefaultSettings
 {
+    _cachePolicy = NSURLRequestUseProtocolCachePolicy;
     _requestType = FCRequestTypeJSON;
     _responseType = FCResponseTypeJSON;
     _userAgent = [NSString stringWithFormat:@"APP-iOS-%.1f", [[UIDevice currentDevice].systemVersion floatValue]];
@@ -84,6 +85,7 @@
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [self fc_requestSerialize];
+    manager.requestSerializer.cachePolicy = _cachePolicy;
     manager.responseSerializer = [self fc_responseSerialize];
     
     NSDictionary *params = _params;
@@ -163,6 +165,7 @@
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [self fc_requestSerialize];
+    manager.requestSerializer.cachePolicy = _cachePolicy;
     manager.responseSerializer = [self fc_responseSerialize];
     
     [manager GET:_url parameters:_params progress:_progressBlock success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

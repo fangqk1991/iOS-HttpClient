@@ -131,7 +131,8 @@ static NSString * const kReuseCell = @"ReuseCell";
                        @{
                            @"text": @"GetRequest",
                            @"event": ^{
-                               FCRequest *request = [[FCRequest alloc] initWithURL:normalURL];
+                               FCRequest *request = [[FCRequest alloc] initWithURL:@"https://cdn.fangcha.me/config/fc.client.config.json"];
+                               request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
                                [request asyncGet:^(id obj) {
                                    LoggerApp(3, @"%@", obj);
                                } failure:^(NSError *error) {

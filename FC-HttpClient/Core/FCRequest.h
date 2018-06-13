@@ -36,6 +36,7 @@ typedef void (^FCProgressBlock)(NSProgress *progress);
 @property (nonatomic, strong, readonly) NSError *error;
 @property (nonatomic, strong, readwrite) NSString *userAgent;
 
+@property (nonatomic) NSURLRequestCachePolicy cachePolicy;
 @property (nonatomic, copy) FCProgressBlock progressBlock;
 
 - (instancetype)initWithURL:(NSString *)url;
