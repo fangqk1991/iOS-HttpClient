@@ -37,8 +37,8 @@ static NSString * const kReuseCell = @"ReuseCell";
                                NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss"};
                                FCRequest *request = [FCRequest requestWithURL:normalURL params:params];
                                request.requestType = FCRequestTypeJSON;
-                               [request asyncPost:^(id obj) {
-                                   NSLog(@"%@", obj);
+                               [request asyncPost:^(NSDictionary *data) {
+                                   NSLog(@"%@", data);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
                                }];
@@ -50,8 +50,8 @@ static NSString * const kReuseCell = @"ReuseCell";
                                NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss"};
                                FCRequest *request = [FCRequest requestWithURL:normalURL params:params];
                                request.requestType = FCRequestTypeForm;
-                               [request asyncPost:^(id obj) {
-                                   NSLog(@"%@", obj);
+                               [request asyncPost:^(NSDictionary *data) {
+                                   NSLog(@"%@", data);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
                                }];
@@ -66,8 +66,8 @@ static NSString * const kReuseCell = @"ReuseCell";
                                request.progressBlock = ^(NSProgress *progress) {
                                    NSLog(@"progress: %@/%@", @(progress.completedUnitCount), @(progress.totalUnitCount));
                                };
-                               [request asyncPost:^(id obj) {
-                                   NSLog(@"%@", obj);
+                               [request asyncPost:^(NSDictionary *data) {
+                                   NSLog(@"%@", data);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
                                }];
@@ -76,11 +76,9 @@ static NSString * const kReuseCell = @"ReuseCell";
                        @{
                            @"text": @"other response code",
                            @"event": ^{
-                               NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss"};
-                               FCRequest *request = [FCRequest requestWithURL:codeURL params:params];
-                               request.requestType = FCRequestTypeJSON;
-                               [request asyncPost:^(id obj) {
-                                   NSLog(@"%@", obj);
+                               FCRequest *request = [FCRequest requestWithURL:codeURL params:@{}];
+                               [request asyncPost:^(NSDictionary *data) {
+                                   NSLog(@"%@", data);
                                } failure:^(NSError *error) {
                                    NSString *errorResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
                                    NSLog(@"Error Body: %@", errorResponse);
@@ -119,8 +117,8 @@ static NSString * const kReuseCell = @"ReuseCell";
                            @"event": ^{
                                NSDictionary *params = @{@"my_num": @(123), @"my_str": @"sss"};
                                FCTypicalRequest *request = [FCTypicalRequest requestWithURL:normalURL params:params];
-                               [request asyncPost:^(id obj) {
-                                   NSLog(@"%@", obj);
+                               [request asyncPost:^(NSDictionary *data) {
+                                   NSLog(@"%@", data);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
                                }];
@@ -131,8 +129,8 @@ static NSString * const kReuseCell = @"ReuseCell";
                            @"event": ^{
                                FCRequest *request = [[FCRequest alloc] initWithURL:@"https://cdn.fangcha.me/static/files/demo.json"];
                                request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-                               [request asyncGet:^(id obj) {
-                                   NSLog(@"%@", obj);
+                               [request asyncGet:^(NSDictionary *data) {
+                                   NSLog(@"%@", data);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
                                }];
@@ -145,8 +143,8 @@ static NSString * const kReuseCell = @"ReuseCell";
                            @"event": ^{
                                FCRequest *request = [FCRequest requestWithURL:delayURL params:@{}];
                                request.requestType = FCRequestTypeForm;
-                               [weakSelf.view startRequest:request success:^(id obj) {
-                                   NSLog(@"%@", obj);
+                               [weakSelf.view startRequest:request success:^(NSDictionary *data) {
+                                   NSLog(@"%@", data);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
                                }];
@@ -158,8 +156,8 @@ static NSString * const kReuseCell = @"ReuseCell";
                                NSDictionary *params = @{@"file": [[self longText] dataUsingEncoding:NSUTF8StringEncoding]};
                                FCRequest *request = [FCRequest requestWithURL:uploadURL params:params];
                                request.requestType = FCRequestTypeForm;
-                               [weakSelf.view startRequest:request success:^(id obj) {
-                                   NSLog(@"%@", obj);
+                               [weakSelf.view startRequest:request success:^(NSDictionary *data) {
+                                   NSLog(@"%@", data);
                                } failure:^(NSError *error) {
                                    NSLog(@"Error: %@", error.localizedDescription);
                                }];
