@@ -17,7 +17,10 @@ FC-HttpClient is available through [CocoaPods](https://cocoapods.org). To instal
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'FC-HttpClient'
+pod 'FC-HttpClient', :git => 'https://github.com/fangqk1991/iOS-HttpClient.git', :tag => '0.3.0'
+
+# Add this line if you want ProgressHUD
+pod 'FC-HttpClient/ProgressHUD', :git => 'https://github.com/fangqk1991/iOS-HttpClient.git', :tag => '0.3.0'
 ```
 
 ## Author
