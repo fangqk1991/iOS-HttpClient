@@ -9,10 +9,8 @@
 #import "FCViewController.h"
 #import "FCRequest.h"
 #import "FCAlertView.h"
-#import "MyUpyunFile.h"
 #import "UIView+FCRequest.h"
 #import "AFNetworking.h"
-#import "NSLogger.h"
 #import "MBProgressHUD.h"
 #import "FCTypicalRequest.h"
 
@@ -25,7 +23,7 @@ static NSString * const kReuseCell = @"ReuseCell";
     // Do any additional setup after loading the view, typically from a nib.
     
     __weak typeof(self) weakSelf = self;
-
+    
     NSString *normalURL = @"https://service.fangcha.me/api/test/http/test_post_json";
     NSString *uploadURL = @"https://service.fangcha.me/api/test/http/test_post_files";
     NSString *delayURL = @"https://service.fangcha.me/api/test/http/test_delay";
@@ -66,12 +64,12 @@ static NSString * const kReuseCell = @"ReuseCell";
                                FCRequest *request = [FCRequest requestWithURL:uploadURL params:params];
                                request.requestType = FCRequestTypeForm;
                                request.progressBlock = ^(NSProgress *progress) {
-                                   LoggerApp(3, @"progress: %@/%@", @(progress.completedUnitCount), @(progress.totalUnitCount));
+                                   NSLog(@"progress: %@/%@", @(progress.completedUnitCount), @(progress.totalUnitCount));
                                };
                                [request asyncPost:^(id obj) {
-                                   LoggerApp(3, @"%@", obj);
+                                   NSLog(@"%@", obj);
                                } failure:^(NSError *error) {
-                                   LoggerError(3, @"Error: %@", error.localizedDescription);
+                                   NSLog(@"Error: %@", error.localizedDescription);
                                }];
                            }
                            },
@@ -82,11 +80,11 @@ static NSString * const kReuseCell = @"ReuseCell";
                                FCRequest *request = [FCRequest requestWithURL:codeURL params:params];
                                request.requestType = FCRequestTypeJSON;
                                [request asyncPost:^(id obj) {
-                                   LoggerApp(3, @"%@", obj);
+                                   NSLog(@"%@", obj);
                                } failure:^(NSError *error) {
                                    NSString *errorResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
-                                   LoggerError(3, @"Error Body: %@", errorResponse);
-                                   LoggerError(3, @"Error localizedDescription: %@", [error localizedDescription]);
+                                   NSLog(@"Error Body: %@", errorResponse);
+                                   NSLog(@"Error localizedDescription: %@", [error localizedDescription]);
                                }];
                            }
                            },
@@ -131,38 +129,12 @@ static NSString * const kReuseCell = @"ReuseCell";
                        @{
                            @"text": @"GetRequest",
                            @"event": ^{
-                               FCRequest *request = [[FCRequest alloc] initWithURL:@"https://cdn.fangcha.me/config/fc.client.config.json"];
+                               FCRequest *request = [[FCRequest alloc] initWithURL:@"https://cdn.fangcha.me/static/files/demo.json"];
                                request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
                                [request asyncGet:^(id obj) {
-                                   LoggerApp(3, @"%@", obj);
+                                   NSLog(@"%@", obj);
                                } failure:^(NSError *error) {
-                                   LoggerError(3, @"Error: %@", error.localizedDescription);
-                               }];
-                           }
-                           },
-                       ],
-                   @[
-                       @{
-                           @"text": @"Upyun Upload",
-                           @"event": ^{
-                               MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:weakSelf.view animated:YES];
-                               hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
-                               
-                               MyUpyunFile *file = [MyUpyunFile fileWithText:[self longText]];
-                               file.progressBlock = ^(float progress) {
-                                   LoggerApp(3, @"%.2f", progress);
-                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                       hud.progress = progress;
-                                       hud.detailsLabel.text = [NSString stringWithFormat:@"%d%%", (int)(progress * 100)];
-                                   });
-                               };
-                               [file asyncUploadWithSuccess:^(NSString *remoteURL) {
-                                   hud.detailsLabel.text = @"上传成功";
-                                   [hud hideAnimated:YES afterDelay:1.2f];
-                                   LoggerApp(3, @"%@", remoteURL);
-                               } failure:^(NSError *error) {
-                                   [hud hideAnimated:YES];
-                                   LoggerError(3, @"Error: %@", error.localizedDescription);
+                                   NSLog(@"Error: %@", error.localizedDescription);
                                }];
                            }
                            },
@@ -174,9 +146,9 @@ static NSString * const kReuseCell = @"ReuseCell";
                                FCRequest *request = [FCRequest requestWithURL:delayURL params:@{}];
                                request.requestType = FCRequestTypeForm;
                                [weakSelf.view startRequest:request success:^(id obj) {
-                                   LoggerApp(3, @"%@", obj);
+                                   NSLog(@"%@", obj);
                                } failure:^(NSError *error) {
-                                   LoggerError(3, @"Error: %@", error.localizedDescription);
+                                   NSLog(@"Error: %@", error.localizedDescription);
                                }];
                            }
                            },
@@ -187,9 +159,9 @@ static NSString * const kReuseCell = @"ReuseCell";
                                FCRequest *request = [FCRequest requestWithURL:uploadURL params:params];
                                request.requestType = FCRequestTypeForm;
                                [weakSelf.view startRequest:request success:^(id obj) {
-                                   LoggerApp(3, @"%@", obj);
+                                   NSLog(@"%@", obj);
                                } failure:^(NSError *error) {
-                                   LoggerError(3, @"Error: %@", error.localizedDescription);
+                                   NSLog(@"Error: %@", error.localizedDescription);
                                }];
                            }
                            },
