@@ -150,7 +150,7 @@ request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
 
 ```
 {
-	"data": "字符串|数字|字典|数组|空值"
+    "data": "字符串|数字|字典|数组|空值"
 }
 ```
 
@@ -158,10 +158,10 @@ request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
 
 ```
 {
-	"error": {
-		"code": -1,
-		"msg": "some error message"
-	}
+    "error": {
+        "code": -1,
+        "msg": "some error message"
+    }
 }
 ```
 
