@@ -1,5 +1,5 @@
 # 简介
-这是一个基于 [AFNetworking](https://github.com/AFNetworking/AFNetworking) 进行封装的网络请求框架，支持同步请求。
+这是一个基于 [AFNetworking](https://github.com/AFNetworking/AFNetworking) 进行封装的网络请求框架，支持异步、同步请求。
 
 <!--
 [![CI Status](https://img.shields.io/travis/fangqk1991/FC-HttpClient.svg?style=flat)](https://travis-ci.org/fangqk1991/FC-HttpClient)
