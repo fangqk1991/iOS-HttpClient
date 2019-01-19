@@ -1,5 +1,5 @@
 # 简介
-这是一个基于 AFNetworking 进行封装的网络请求框架，支持同步请求。
+这是一个基于 [AFNetworking](https://github.com/AFNetworking/AFNetworking) 进行封装的网络请求框架，支持同步请求。
 
 <!--
 [![CI Status](https://img.shields.io/travis/fangqk1991/FC-HttpClient.svg?style=flat)](https://travis-ci.org/fangqk1991/FC-HttpClient)
@@ -7,6 +7,11 @@
 [![License](https://img.shields.io/cocoapods/l/FC-HttpClient.svg?style=flat)](https://cocoapods.org/pods/FC-HttpClient)
 [![Platform](https://img.shields.io/cocoapods/p/FC-HttpClient.svg?style=flat)](https://cocoapods.org/pods/FC-HttpClient)
 -->
+
+## 依赖
+* iOS 8+
+* [AFNetworking 3](https://github.com/AFNetworking/AFNetworking)
+* [MBProgressHUD 1.1 [可选]](https://github.com/jdg/MBProgressHUD)
 
 ## 安装
 FC-HttpClient 使用 [CocoaPods](https://cocoapods.org) 进行安装.
